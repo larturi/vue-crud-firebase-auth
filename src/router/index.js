@@ -27,6 +27,12 @@ const routes = [
     name: 'Editar',
     component: () => import('../views/Editar.vue'),
     meta: { requiresAuth: true }
+  },
+  {
+    path: '/agregar',
+    name: 'Agregar',
+    component: () => import('../views/Agregar.vue'),
+    meta: { requiresAuth: true }
   }
 ];
 
