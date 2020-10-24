@@ -1,12 +1,29 @@
+import { mapActions } from 'vuex';
+
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+        <router-link to="/" v-if="existeUsuario">Inicio</router-link>
+        <router-link to="/registro" v-if="!existeUsuario">Registro</router-link>
+        <router-link to="/login" v-if="!existeUsuario">Login</router-link>
+        <button @click="cerrarSession" v-if="existeUsuario">Logout</button>
     </div>
     <router-view/>
   </div>
 </template>
+
+<script>
+import {mapActions, mapGetters} from 'vuex';
+
+export default {
+   methods: {
+     ...mapActions(['cerrarSession'])
+   },
+   computed: {
+     ...mapGetters(['existeUsuario'])
+   },
+}
+</script>
 
 <style>
 #app {
