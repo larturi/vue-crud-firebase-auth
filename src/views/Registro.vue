@@ -1,29 +1,33 @@
 <template>
-    <div>
-        <h1>Registro</h1>
+    <div class="row">
+        <div class="col-md-8 col-lg-5">
+            <h1 class="mb-3">Registro</h1>
 
-        <form @submit.prevent="crearUsuario( {email: email, password: pass1} )">
-            <input 
-                type="email" 
-                placeholder="Ingrese email"
-                v-model="email"
-            >
-            <input 
-                type="password" 
-                placeholder="Ingrese su contraseña"
-                v-model="pass1"
-            >
-            <input 
-                type="password" 
-                placeholder="Repita su contraseña"
-                v-model="pass2"
-            >
-            <button :disabled="desactivar" type="submit">Registrar</button>
-        </form>
-        <p>
-            {{ error }}
-        </p>
-
+            <form @submit.prevent="crearUsuario( {email: email, password: pass1} )">
+                <input 
+                    type="email" 
+                    placeholder="Ingrese email"
+                    v-model="email"
+                    class="form-control mb-2"
+                >
+                <input 
+                    type="password" 
+                    placeholder="Ingrese su contraseña"
+                    v-model="pass1"
+                    class="form-control mb-2"
+                >
+                <input 
+                    type="password" 
+                    placeholder="Repita su contraseña"
+                    v-model="pass2"
+                    class="form-control mb-2"
+                >
+                <button :disabled="desactivar" type="submit" class="btn btn-primary btn-block">Registrar</button>
+            </form>
+            <p>
+                {{ error }}
+            </p>
+        </div>
     </div>
 </template>
 

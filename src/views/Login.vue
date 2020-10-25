@@ -1,26 +1,29 @@
 <template>
-    <div>
-        <h1>Login</h1>
+    <div class="row">
+        <div class="col-md-8 col-lg-5">
+            <h1 class="mb-3">Login</h1>
 
-        <form @submit.prevent="loginUsuario( {email: email, password: password} )">
-            <input 
-                type="email" 
-                placeholder="Ingrese email"
-                v-model="email"
-            >
-            <input 
-                type="password" 
-                placeholder="Ingrese su contraseña"
-                v-model="password"
-            >
+            <form class="form-group" @submit.prevent="loginUsuario( {email: email, password: password} )">
+                <input 
+                    type="email" 
+                    placeholder="Ingrese email"
+                    v-model="email"
+                    class="form-control mb-2"
+                >
+                <input 
+                    type="password" 
+                    placeholder="Ingrese su contraseña"
+                    v-model="password"
+                    class="form-control mb-2"
+                >
 
-            <button type="submit">Acceder</button>
+                <button class="btn btn-primary btn-block" type="submit">Acceder</button>
+            </form>
 
-        </form>
-
-        <p v-if="error">
-            {{ error.message }}
-        </p>
+            <p v-if="error">
+                {{ error.message }}
+            </p>
+        </div>
     </div>
 </template>
 
