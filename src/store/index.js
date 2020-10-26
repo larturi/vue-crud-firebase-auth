@@ -11,7 +11,9 @@ export default new Vuex.Store({
     usuario: null,
     error: null,
     tareas: [],
-    tarea: {nombre: '', id: ''}
+    tarea: {nombre: '', id: ''},
+    loading: false,
+    texto: ''
   },
   mutations: {
     setUsuario(state, payload) {  
@@ -28,11 +30,17 @@ export default new Vuex.Store({
     },
     setEliminarTarea(state, payload){
       state.tareas = state.tareas.filter(item => item.id !== payload);
+    },
+    cargarFirebase(state, payload) {
+      state.loading = payload;
     }
   },
   actions: {
+    buscador({commit, state}, payload) {
+      state.texto = payload.toLowerCase();
+    },
     getTareas({commit, state}) {
-      console.log(state);
+      commit('cargarFirebase', true);
       const tareas = [];
       db.collection(state.usuario.email).get()
         .then(res => {
@@ -41,6 +49,7 @@ export default new Vuex.Store({
             tarea.id = doc.id;
             tareas.push(tarea);
           });
+          commit('cargarFirebase', false);
           commit('setTareas', tareas);
         });
     },
@@ -65,9 +74,9 @@ export default new Vuex.Store({
           });
 
         })
-        .catch(err => {
+        .catch(error => {
           console.error(error);
-          commit('setError', error);
+          commit('setError', error.code);
         });
     },
     loginUsuario({commit}, usuario) {
@@ -116,11 +125,13 @@ export default new Vuex.Store({
       .catch(error => console.log(error));
     },
     agregarTarea({commit, state}, nombreTarea){
+      commit('cargarFirebase', true);
       db.collection(state.usuario.email).add({
           nombre: nombreTarea
       })
       .then(doc => {
           router.push({name: 'Inicio'});
+          commit('cargarFirebase', false);
       })
       .catch(error => console.log(error));
     },
@@ -139,6 +150,18 @@ export default new Vuex.Store({
       } else {
         return true;
       }
+    },
+    arrayFiltrado(state) {
+      let arregloFilrado = [];
+
+      for (let tarea of state.tareas) {
+        let nombre = tarea.nombre.toLowerCase();
+        if (nombre.indexOf(state.texto) >= 0) {
+          arregloFilrado.push(tarea);
+        }
+      }
+
+      return arregloFilrado;
     }
   },
   modules: {
